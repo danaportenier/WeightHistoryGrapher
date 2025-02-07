@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		916E6BC22D569236002BB300 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 916E6BA82D569235002BB300 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 916E6BAF2D569235002BB300;
+			remoteInfo = WeightHistoryGrapher;
+		};
+		916E6BCC2D569236002BB300 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 916E6BA82D569235002BB300 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 916E6BAF2D569235002BB300;
+			remoteInfo = WeightHistoryGrapher;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		916E6BB02D569235002BB300 /* WeightHistoryGrapher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeightHistoryGrapher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		916E6BC12D569236002BB300 /* WeightHistoryGrapherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeightHistoryGrapherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		916E6BCB2D569236002BB300 /* WeightHistoryGrapherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeightHistoryGrapherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		916E6BB22D569235002BB300 /* WeightHistoryGrapher */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WeightHistoryGrapher;
+			sourceTree = "<group>";
+		};
+		916E6BC42D569236002BB300 /* WeightHistoryGrapherTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WeightHistoryGrapherTests;
+			sourceTree = "<group>";
+		};
+		916E6BCE2D569236002BB300 /* WeightHistoryGrapherUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WeightHistoryGrapherUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		916E6BAD2D569235002BB300 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		916E6BBE2D569236002BB300 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		916E6BC82D569236002BB300 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		916E6BA72D569235002BB300 = {
+			isa = PBXGroup;
+			children = (
+				916E6BB22D569235002BB300 /* WeightHistoryGrapher */,
+				916E6BC42D569236002BB300 /* WeightHistoryGrapherTests */,
+				916E6BCE2D569236002BB300 /* WeightHistoryGrapherUITests */,
+				916E6BB12D569235002BB300 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		916E6BB12D569235002BB300 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				916E6BB02D569235002BB300 /* WeightHistoryGrapher.app */,
+				916E6BC12D569236002BB300 /* WeightHistoryGrapherTests.xctest */,
+				916E6BCB2D569236002BB300 /* WeightHistoryGrapherUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		916E6BAF2D569235002BB300 /* WeightHistoryGrapher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 916E6BD52D569236002BB300 /* Build configuration list for PBXNativeTarget "WeightHistoryGrapher" */;
+			buildPhases = (
+				916E6BAC2D569235002BB300 /* Sources */,
+				916E6BAD2D569235002BB300 /* Frameworks */,
+				916E6BAE2D569235002BB300 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				916E6BB22D569235002BB300 /* WeightHistoryGrapher */,
+			);
+			name = WeightHistoryGrapher;
+			packageProductDependencies = (
+			);
+			productName = WeightHistoryGrapher;
+			productReference = 916E6BB02D569235002BB300 /* WeightHistoryGrapher.app */;
+			productType = "com.apple.product-type.application";
+		};
+		916E6BC02D569236002BB300 /* WeightHistoryGrapherTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 916E6BD82D569236002BB300 /* Build configuration list for PBXNativeTarget "WeightHistoryGrapherTests" */;
+			buildPhases = (
+				916E6BBD2D569236002BB300 /* Sources */,
+				916E6BBE2D569236002BB300 /* Frameworks */,
+				916E6BBF2D569236002BB300 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				916E6BC32D569236002BB300 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				916E6BC42D569236002BB300 /* WeightHistoryGrapherTests */,
+			);
+			name = WeightHistoryGrapherTests;
+			packageProductDependencies = (
+			);
+			productName = WeightHistoryGrapherTests;
+			productReference = 916E6BC12D569236002BB300 /* WeightHistoryGrapherTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		916E6BCA2D569236002BB300 /* WeightHistoryGrapherUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 916E6BDB2D569236002BB300 /* Build configuration list for PBXNativeTarget "WeightHistoryGrapherUITests" */;
+			buildPhases = (
+				916E6BC72D569236002BB300 /* Sources */,
+				916E6BC82D569236002BB300 /* Frameworks */,
+				916E6BC92D569236002BB300 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				916E6BCD2D569236002BB300 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				916E6BCE2D569236002BB300 /* WeightHistoryGrapherUITests */,
+			);
+			name = WeightHistoryGrapherUITests;
+			packageProductDependencies = (
+			);
+			productName = WeightHistoryGrapherUITests;
+			productReference = 916E6BCB2D569236002BB300 /* WeightHistoryGrapherUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		916E6BA82D569235002BB300 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					916E6BAF2D569235002BB300 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					916E6BC02D569236002BB300 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 916E6BAF2D569235002BB300;
+					};
+					916E6BCA2D569236002BB300 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 916E6BAF2D569235002BB300;
+					};
+				};
+			};
+			buildConfigurationList = 916E6BAB2D569235002BB300 /* Build configuration list for PBXProject "WeightHistoryGrapher" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 916E6BA72D569235002BB300;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 916E6BB12D569235002BB300 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				916E6BAF2D569235002BB300 /* WeightHistoryGrapher */,
+				916E6BC02D569236002BB300 /* WeightHistoryGrapherTests */,
+				916E6BCA2D569236002BB300 /* WeightHistoryGrapherUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		916E6BAE2D569235002BB300 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		916E6BBF2D569236002BB300 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		916E6BC92D569236002BB300 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		916E6BAC2D569235002BB300 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		916E6BBD2D569236002BB300 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		916E6BC72D569236002BB300 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		916E6BC32D569236002BB300 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 916E6BAF2D569235002BB300 /* WeightHistoryGrapher */;
+			targetProxy = 916E6BC22D569236002BB300 /* PBXContainerItemProxy */;
+		};
+		916E6BCD2D569236002BB300 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 916E6BAF2D569235002BB300 /* WeightHistoryGrapher */;
+			targetProxy = 916E6BCC2D569236002BB300 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		916E6BD32D569236002BB300 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		916E6BD42D569236002BB300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		916E6BD62D569236002BB300 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WeightHistoryGrapher/WeightHistoryGrapher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"WeightHistoryGrapher/Preview Content\"";
+				DEVELOPMENT_TEAM = JJX8PSC248;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = saucysolutions.WeightHistoryGrapher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		916E6BD72D569236002BB300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WeightHistoryGrapher/WeightHistoryGrapher.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"WeightHistoryGrapher/Preview Content\"";
+				DEVELOPMENT_TEAM = JJX8PSC248;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = saucysolutions.WeightHistoryGrapher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		916E6BD92D569236002BB300 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JJX8PSC248;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = saucysolutions.WeightHistoryGrapherTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeightHistoryGrapher.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeightHistoryGrapher";
+			};
+			name = Debug;
+		};
+		916E6BDA2D569236002BB300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JJX8PSC248;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = saucysolutions.WeightHistoryGrapherTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeightHistoryGrapher.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WeightHistoryGrapher";
+			};
+			name = Release;
+		};
+		916E6BDC2D569236002BB300 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JJX8PSC248;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = saucysolutions.WeightHistoryGrapherUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = WeightHistoryGrapher;
+			};
+			name = Debug;
+		};
+		916E6BDD2D569236002BB300 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JJX8PSC248;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = saucysolutions.WeightHistoryGrapherUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = WeightHistoryGrapher;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		916E6BAB2D569235002BB300 /* Build configuration list for PBXProject "WeightHistoryGrapher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				916E6BD32D569236002BB300 /* Debug */,
+				916E6BD42D569236002BB300 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		916E6BD52D569236002BB300 /* Build configuration list for PBXNativeTarget "WeightHistoryGrapher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				916E6BD62D569236002BB300 /* Debug */,
+				916E6BD72D569236002BB300 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		916E6BD82D569236002BB300 /* Build configuration list for PBXNativeTarget "WeightHistoryGrapherTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				916E6BD92D569236002BB300 /* Debug */,
+				916E6BDA2D569236002BB300 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		916E6BDB2D569236002BB300 /* Build configuration list for PBXNativeTarget "WeightHistoryGrapherUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				916E6BDC2D569236002BB300 /* Debug */,
+				916E6BDD2D569236002BB300 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 916E6BA82D569235002BB300 /* Project object */;
+}
