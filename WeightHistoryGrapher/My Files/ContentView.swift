@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var weightData: WeightData
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            WeightEnteryView(weightData: weightData)
+            Divider()
+            ChartView(weightEntries: $weightData.entries)
         }
         .padding()
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(weightData: WeightData())
 }
