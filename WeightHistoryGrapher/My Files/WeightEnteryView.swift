@@ -13,6 +13,13 @@ struct WeightEnteryView: View {
     @State private var label: String = ""
     @State private var weight: Double = 0
     @State private var date: Int = 2025
+    
+    //Focus
+    @FocusState private var focusedField: Field?
+    
+    enum Field {
+        case label, weight, date, addButton
+    }
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -20,6 +27,9 @@ struct WeightEnteryView: View {
                     .frame(width: 120, alignment: .leading) // Set a fixed width for labels
                 TextField("Enter Significant Weight Time Point", text: $label)
                     .textFieldStyle(.roundedBorder)
+                    .focused($focusedField, equals: .label) // Track focus
+                    .submitLabel(.next)
+                    .onSubmit { focusedField = .weight }
             }
             
             HStack {
@@ -28,6 +38,9 @@ struct WeightEnteryView: View {
                 TextField("Enter Weight in Pounds", value: $weight, formatter: integerFormatter)
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 150) // Consistent field width
+                    .focused($focusedField, equals: .weight)
+                    .submitLabel(.next)
+                    .onSubmit { focusedField = .date }
             }
             
             HStack {
@@ -36,6 +49,9 @@ struct WeightEnteryView: View {
                 TextField("Enter Year", value: $date, formatter: integerFormatter)
                     .textFieldStyle(.roundedBorder)
                     .frame(width: 150)
+                    .focused($focusedField, equals: .date)
+                    .submitLabel(.next)
+                    .onSubmit { focusedField = .addButton }
             }
         }
         .padding()
@@ -44,6 +60,10 @@ struct WeightEnteryView: View {
                 Spacer()
                 Button("Add", action: addWeightEntry)
                     .buttonStyle(.borderedProminent)
+                    .focused($focusedField, equals: .addButton) // Make button focusable
+                    .focusable(true)
+                    .keyboardShortcut(.defaultAction)
+                    .onSubmit { addWeightEntry() }
                     .padding(.bottom)
                     .padding(.horizontal)
                 Button("Reset All", action: resetAll)
@@ -60,6 +80,7 @@ struct WeightEnteryView: View {
     }
     func resetAll() {
         weightData.entries = []
+        
     }
     
     func addWeightEntry() {
@@ -68,6 +89,7 @@ struct WeightEnteryView: View {
         label = ""
         weight = 0
         // date = 2025
+       
     }
     
     private var integerFormatter: NumberFormatter {
