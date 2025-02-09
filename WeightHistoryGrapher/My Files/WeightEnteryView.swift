@@ -89,8 +89,10 @@ struct WeightEnteryView: View {
         label = ""
         weight = 0
         // date = 2025
+        focusedField = .label
        
     }
+        
     
     private var integerFormatter: NumberFormatter {
         let formatter = NumberFormatter()
