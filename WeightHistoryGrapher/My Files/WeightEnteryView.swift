@@ -21,6 +21,8 @@ struct WeightEnteryView: View {
         case label, weight, date, addButton
     }
     var body: some View {
+            
+        
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("Time Point:")
@@ -53,29 +55,27 @@ struct WeightEnteryView: View {
                     .submitLabel(.next)
                     .onSubmit { focusedField = .addButton }
             }
-        }
-        .padding()
-        VStack(alignment: .leading) {
             HStack {
-                Spacer()
                 Button("Add", action: addWeightEntry)
                     .buttonStyle(.borderedProminent)
                     .focused($focusedField, equals: .addButton) // Make button focusable
                     .focusable(true)
                     .keyboardShortcut(.defaultAction)
                     .onSubmit { addWeightEntry() }
-                    .padding(.bottom)
+                    .padding(.top)
                     .padding(.horizontal)
                 Button("Reset All", action: resetAll)
-                    .padding(.bottom)
+                    .padding(.top)
                     .padding(.horizontal)
                     .buttonStyle(.borderedProminent)
-                    
-               
+                
             }
-            .padding(.trailing, 30)
-            
+        
         }
+        .padding()
+        
+            
+        
         
     }
     func resetAll() {

@@ -7,7 +7,7 @@
 import SwiftUI
 
 
-struct WeightHistoryModel: Identifiable {
+struct WeightHistoryModel: Identifiable, Hashable {
     let id: UUID = UUID()
     var date: Int?
     var weight: Double

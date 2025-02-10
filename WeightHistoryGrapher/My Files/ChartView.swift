@@ -15,6 +15,8 @@ struct ChartView: View {
             Text("Signifigant Weight History")
                 .font(.title2)
                 .bold()
+            
+            let sortedEntries = weightEntries.sorted { ($0.date ?? 0) < ($1.date ?? 0) }
         let minYear = weightEntries.compactMap({ $0.date }).min() ?? 1935
         let maxYear = weightEntries.compactMap({ $0.date }).max() ?? 2060
         
@@ -22,7 +24,7 @@ struct ChartView: View {
         let maxWeight = weightEntries.compactMap({ $0.weight }).max() ?? 800
         
         
-        Chart(weightEntries) { weightEntry in
+        Chart(sortedEntries) { weightEntry in
             LineMark(
                 x: .value("Date", weightEntry.date ?? 2000),
                 y: .value("Weight", weightEntry.weight)
