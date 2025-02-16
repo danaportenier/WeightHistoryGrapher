@@ -24,6 +24,7 @@ struct WeightHistoryGrapherApp: App {
         WindowGroup {
             ContentView(weightData: weightData) // Pass a binding to allow modification
         }
+        .windowToolbarStyle(.expanded) 
     }
 }
 
