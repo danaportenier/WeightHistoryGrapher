@@ -14,6 +14,16 @@ struct WeightEnteryView: View {
     @State private var weight: Double = 0
     @State private var date: Int = 2025
     
+    @State private var name: String = ""
+    @State private var heightFeet: String = ""
+    @State private var heightInches: String = ""
+    @State private var dobDay: String = ""
+    @State private var dobMonth: String = ""
+    @State private var dobYear: String = ""
+    
+    @State private var showDemographicsWindow = false
+
+    
     //Focus
     @FocusState private var focusedField: Field?
     
@@ -21,20 +31,20 @@ struct WeightEnteryView: View {
         case label, weight, date, addButton
     }
     var body: some View {
-            
         
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("Time Point:")
-                    .frame(width: 120, alignment: .leading) // Set a fixed width for labels
-                TextField("Enter Significant Weight Time Point", text: $label)
-                    .textFieldStyle(.roundedBorder)
-                    .focused($focusedField, equals: .label) // Track focus
-                    .submitLabel(.next)
-                    .onSubmit { focusedField = .weight }
-            }
-            
-            HStack {
+        HStack {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Text("Time Point:")
+                        .frame(width: 120, alignment: .leading) // Set a fixed width for labels
+                    TextField("Enter Significant Weight Time Point", text: $label)
+                        .textFieldStyle(.roundedBorder)
+                        .focused($focusedField, equals: .label) // Track focus
+                        .submitLabel(.next)
+                        .onSubmit { focusedField = .weight }
+                }
+                
+                HStack {
                 Text("Weight (lbs):")
                     .frame(width: 120, alignment: .leading)
                 TextField("Enter Weight in Pounds", value: $weight, formatter: integerFormatter)
@@ -68,16 +78,40 @@ struct WeightEnteryView: View {
                     .padding(.top)
                     .padding(.horizontal)
                     .buttonStyle(.borderedProminent)
+                Button("Demographics") {
+                    showDemographicsWindow = true
+                }
+                .padding(.top)
+                .padding(.horizontal)
+                .buttonStyle(.borderedProminent)
+            }
                 
             }
-        
+            
+           
+            
+        }
+        .sheet(isPresented: $showDemographicsWindow) {
+            DemographicsView(
+                name: $name,
+                heightFeet: $heightFeet,
+                heightInches: $heightInches,
+                dobDay: $dobDay,
+                dobMonth: $dobMonth,
+                dobYear: $dobYear
+            )
         }
         .padding()
+            
         
+    
             
         
         
     }
+    
+    
+    
     func resetAll() {
         weightData.entries = []
         
