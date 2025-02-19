@@ -15,11 +15,12 @@ struct EventListView: View {
         VStack {
             Text("Weight Events")
                 .font(.title2)
+                .padding(.top, 2)
             
-            if !weightData.entries.isEmpty {
-                ForEach(weightData.entries, id: \.self) { entry in
+            if !weightData.patient.weightEntries.isEmpty {
+                ForEach(weightData.patient.weightEntries, id: \.self) { entry in
                     HStack {
-                        Text("Year: \(String(describing: entry.date!)) || Lbs: \(formattedWeight(entry.weight))")
+                        Text("Year: \(String(describing: entry.date)) || Lbs: \(formattedWeight(entry.weight))")
                             .lineLimit(1) // Ensure text remains on one line
                         
                        
@@ -43,11 +44,11 @@ struct EventListView: View {
         .padding()
     }
     
-    func deleteEntry(_ entry: WeightHistoryModel) {
-        if let index = weightData.entries.firstIndex(where: { $0.id == entry.id }) {
-            weightData.entries.remove(at: index)
-        }
-    }
+    func deleteEntry(_ entry: WeightEntry) {
+        if let index = weightData.patient.weightEntries.firstIndex(where: { $0.id == entry.id }) {
+                    weightData.patient.weightEntries.remove(at: index)
+                }
+            }
     
     func formattedWeight(_ weight: Double) -> String {
         return String(format: "%.0f", weight) // Example: 150 instead of 150.5

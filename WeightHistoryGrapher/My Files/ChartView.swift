@@ -4,15 +4,16 @@ import AppKit
 
 struct ChartView: View {
     
-    @Binding var weightEntries: [WeightHistoryModel]
+    @Binding var weightEntries: [WeightEntry] 
     var body: some View {
         VStack {
+            
             Text("Significant Weight History")
                 .font(.title2)
                 .bold()
                 .padding(.bottom)
             
-            let sortedEntries = weightEntries.sorted { ($0.date ?? 0) < ($1.date ?? 0) }
+            let sortedEntries = weightEntries.sorted { ($0.date) < ($1.date) }
             let minYear = sortedEntries.compactMap({ $0.date }).min() ?? 1935
             let maxYear = sortedEntries.compactMap({ $0.date }).max() ?? 2060
             let minWeight = sortedEntries.compactMap({ $0.weight }).min() ?? 100
@@ -24,13 +25,13 @@ struct ChartView: View {
                 let isRising = (previousEntry?.weight ?? currentEntry.weight) <= currentEntry.weight
                 
                 LineMark(
-                    x: .value("Date", currentEntry.date ?? 2000),
+                    x: .value("Date", currentEntry.date),
                     y: .value("Weight", currentEntry.weight)
                 )
                 .foregroundStyle(.blue)
                 
                 PointMark(
-                    x: .value("Date", currentEntry.date ?? 2000),
+                    x: .value("Date", currentEntry.date),
                     y: .value("Weight", currentEntry.weight)
                 )
                 .foregroundStyle(.blue)

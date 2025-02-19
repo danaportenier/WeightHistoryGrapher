@@ -1,102 +1,43 @@
+//
+//  DemographicsView.swift
+//  WeightHistoryGrapher
+//
+//  Created by Dana Portenier on 2/19/25.
+//
+
 import SwiftUI
 
 struct DemographicsView: View {
-    @Binding var name: String
-    @Binding var heightFeet: String
-    @Binding var heightInches: String
-    @Binding var dobDay: String
-    @Binding var dobMonth: String
-    @Binding var dobYear: String
-    @Environment(\.dismiss) var dismiss
-
-    // Define focus states
-    @FocusState private var focusedField: Field?
-
-    enum Field {
-        case name, heightFeet, heightInches, dobDay, dobMonth, dobYear, saveButton
-    }
+    @ObservedObject var weightData: WeightData  // <-- Needs to observe the WeightData object
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Enter Demographics")
-                .font(.headline)
-                .padding(.bottom)
-
-            Text("Patient Name")
+        VStack(alignment: .leading) {
+            Text("Demographics:")
                 .bold()
-            TextField("Name", text: $name)
-                .textFieldStyle(.roundedBorder)
-                .focused($focusedField, equals: .name)
-                .submitLabel(.next)
-                .onSubmit { focusedField = .heightFeet }
-
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Height")
-                    .bold()
-                HStack {
-                    TextField("Feet", text: $heightFeet)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 80)
-                        .focused($focusedField, equals: .heightFeet)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .heightInches }
-
-                    TextField("Inches", text: $heightInches)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 80)
-                        .focused($focusedField, equals: .heightInches)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .dobDay }
+        HStack {
+            
+            if weightData.patient.heightFeet.isEmpty ||
+                weightData.patient.heightInches.isEmpty ||
+                weightData.patient.dobDay.isEmpty ||
+                weightData.patient.dobMonth.isEmpty ||
+                weightData.patient.dobYear.isEmpty {
+                
+                Text("Enter Patient Demographics")
+                    .font(.headline)
+                    .foregroundColor(.red.opacity(0.6))
+                
+            } else {
+                HStack(spacing: 16) { // Use HStack instead of VStack
+                    Text("Height: \(weightData.patient.heightFeet) ft \(weightData.patient.heightInches) in")
+                    Text("DOB: \(weightData.patient.dobMonth)/\(weightData.patient.dobDay)/\(weightData.patient.dobYear)")
+                    Text("Patient Name: \(weightData.patient.name)")
                 }
+                .padding()
             }
-
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Date of Birth")
-                    .bold()
-                HStack {
-                    TextField("Day", text: $dobDay)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 60)
-                        .focused($focusedField, equals: .dobDay)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .dobMonth }
-
-                    TextField("Month", text: $dobMonth)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 60)
-                        .focused($focusedField, equals: .dobMonth)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .dobYear }
-
-                    TextField("Year", text: $dobYear)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 100)
-                        .focused($focusedField, equals: .dobYear)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .saveButton }
-                }
-            }
-
-            HStack {
-                Button("Save") {
-                    dismiss()
-                }
-                .buttonStyle(.borderedProminent)
-                .focused($focusedField, equals: .saveButton) // Ensure focus moves to this button
-                .focusable(true) // Make sure macOS allows the button to receive keyboard focus
-                .keyboardShortcut(.defaultAction) // Allows pressing Return to trigger Save
-                .onSubmit { dismiss() } // Ensures pressing Return also dismisses the window
-
-                Button("Cancel") {
-                    dismiss()
-                }
-                .buttonStyle(.bordered)
-            }
-        }
-        .padding()
-        .frame(width: 300, height: 250)
-        .onAppear {
-            focusedField = .name // Start focus at the Name field
         }
     }
-}
+        .frame(maxHeight: .none)
+            }
+        
+    }
+

@@ -32,7 +32,7 @@ struct WeightEnteryView: View {
     }
     var body: some View {
         
-        HStack {
+        HStack(alignment: .top, spacing: 10) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Text("Time Point:")
@@ -66,15 +66,22 @@ struct WeightEnteryView: View {
                     .onSubmit { focusedField = .addButton }
             }
             HStack {
-                Button("Add", action: addWeightEntry)
+                Button("Add") {
+                    weightData.addWeightEntry(date: date, weight: weight, label: label)
+                    date = 2025
+                    weight = 0
+                    label = ""
+                }
                     .buttonStyle(.borderedProminent)
                     .focused($focusedField, equals: .addButton) // Make button focusable
                     .focusable(true)
                     .keyboardShortcut(.defaultAction)
-                    .onSubmit { addWeightEntry() }
+                    
                     .padding(.top)
                     .padding(.horizontal)
-                Button("Reset All", action: resetAll)
+                Button("Reset All") {
+                    weightData.resetAll()
+                }
                     .padding(.top)
                     .padding(.horizontal)
                     .buttonStyle(.borderedProminent)
@@ -85,14 +92,19 @@ struct WeightEnteryView: View {
                 .padding(.horizontal)
                 .buttonStyle(.borderedProminent)
             }
+            .padding(.bottom)
                 
+                DemographicsView(weightData: weightData)
+                    .padding()
+                    .border(Color.gray.opacity(0.3), width: 2)
             }
             
            
             
         }
         .sheet(isPresented: $showDemographicsWindow) {
-            DemographicsView(
+            DemographicsEnteryView(
+                weightData: weightData, // Pass the required argument
                 name: $name,
                 heightFeet: $heightFeet,
                 heightInches: $heightInches,
@@ -112,20 +124,8 @@ struct WeightEnteryView: View {
     
     
     
-    func resetAll() {
-        weightData.entries = []
-        
-    }
+   
     
-    func addWeightEntry() {
-        let newEntry = WeightHistoryModel(date: date, weight: weight, label: label)
-        weightData.entries.append(newEntry)
-        label = ""
-        weight = 0
-        // date = 2025
-        focusedField = .label
-       
-    }
         
     
     private var integerFormatter: NumberFormatter {

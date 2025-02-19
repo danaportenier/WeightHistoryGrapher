@@ -11,7 +11,10 @@ struct ContentView: View {
     @ObservedObject var weightData: WeightData
     var body: some View {
         NavigationStack {
+            
         VStack {
+            
+            
             HStack {
                 WeightEnteryView(weightData: weightData)
                 Divider()
@@ -19,8 +22,9 @@ struct ContentView: View {
                     EventListView(weightData: weightData)
                 }
             }
+            
             Divider()
-            ChartView(weightEntries: $weightData.entries)
+            ChartView(weightEntries: $weightData.patient.weightEntries)
             
             
         }

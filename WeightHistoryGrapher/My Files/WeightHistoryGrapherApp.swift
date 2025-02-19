@@ -28,7 +28,3 @@ struct WeightHistoryGrapherApp: App {
     }
 }
 
-// ObservableObject to manage weight history
-class WeightData: ObservableObject {
-    @Published var entries: [WeightHistoryModel] = []
-}
