@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DemographicsView: View {
-    @ObservedObject var weightData: WeightData  // <-- Needs to observe the WeightData object
+    @ObservedObject var weightData: WeightData
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -31,6 +31,7 @@ struct DemographicsView: View {
                     Text("Height: \(weightData.patient.heightFeet) ft \(weightData.patient.heightInches) in")
                     Text("DOB: \(weightData.patient.dobMonth)/\(weightData.patient.dobDay)/\(weightData.patient.dobYear)")
                     Text("Patient Name: \(weightData.patient.name)")
+                    Text("Age: \(weightData.patient.currentAge ?? 30)")
                 }
                 .padding()
             }

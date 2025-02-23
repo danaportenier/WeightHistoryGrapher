@@ -19,9 +19,23 @@ struct EventListView: View {
             
             if !weightData.patient.weightEntries.isEmpty {
                 ForEach(weightData.patient.weightEntries, id: \.self) { entry in
+                    let age = entry.ageAtEntry(dobYear: weightData.patient.dobYearInt ?? 0)
+                        let bmi = entry.bmiAtEntry(heightMeters: weightData.patient.heightMeters)
                     HStack {
                         Text("Year: \(String(describing: entry.date)) || Lbs: \(formattedWeight(entry.weight))")
-                            .lineLimit(1) // Ensure text remains on one line
+                            .lineLimit(1)
+                        Text("Weight: \(String(format: "%.1f", entry.weight)) lbs")
+                        if let age = age {
+                                    Text("Age: \(age)")
+                                } else {
+                                    Text("Age: N/A")
+                                }
+
+                                if let bmi = bmi {
+                                    Text("BMI: \(String(format: "%.1f", bmi))")
+                                } else {
+                                    Text("BMI: N/A")
+                                }
                         
                        
                         

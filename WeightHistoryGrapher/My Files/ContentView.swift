@@ -24,7 +24,7 @@ struct ContentView: View {
             }
             
             Divider()
-            ChartView(weightEntries: $weightData.patient.weightEntries)
+            ChartView(weightEntries: $weightData.patient.weightEntries, patient: weightData.patient)
             
             
         }
