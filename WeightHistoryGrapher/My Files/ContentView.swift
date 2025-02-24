@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var weightData: WeightData
     @State private var patient = Patient()
+    @Binding var showDemographicsWindow: Bool
     var body: some View {
         NavigationStack {
             
@@ -32,6 +33,17 @@ struct ContentView: View {
         .background(Color.white) // White background
                     .ignoresSafeArea()
                     .navigationTitle("")
+                    .sheet(isPresented: $showDemographicsWindow) { // ✅ Make sure this is here!
+                        DemographicsEnteryView(
+                            weightData: weightData,
+                            name: $patient.name,
+                            heightFeet: $patient.heightFeet,
+                            heightInches: $patient.heightInches,
+                            dobDay: $patient.dobDay,
+                            dobMonth: $patient.dobMonth,
+                            dobYear: $patient.dobYear
+                        )
+                    }
                     .toolbar {
                         ToolbarItem(placement: .principal) {
                                
@@ -44,5 +56,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(weightData: WeightData())
+    ContentView(weightData: WeightData(), showDemographicsWindow: .constant(false))
 }
