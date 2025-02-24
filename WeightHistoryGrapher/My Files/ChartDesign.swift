@@ -70,6 +70,8 @@ struct ChartDesign: View {
                 }
             }
         }
+        .chartXAxisLabel("Years", position: .bottom, alignment: .center)
+        .chartYAxisLabel("Weight (lbs)", position: .leading, alignment: .center)
     }
 
     // MARK: - Mark Builders
