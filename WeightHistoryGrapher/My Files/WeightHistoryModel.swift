@@ -30,6 +30,15 @@ struct Patient: Identifiable, Hashable {
     var dobYear: String = ""
     var weightEntries: [WeightEntry] = []
 
+    mutating func resetAll() {
+            name = ""
+            heightFeet = ""
+            heightInches = ""
+            dobDay = ""
+            dobMonth = ""
+            dobYear = ""
+        }
+    
     var heightMeters: Double {
         let feet = Double(heightFeet) ?? 0
         let inches = Double(heightInches) ?? 0

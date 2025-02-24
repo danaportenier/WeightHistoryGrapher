@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var weightData: WeightData
+    @State private var patient = Patient()
     var body: some View {
         NavigationStack {
             
@@ -16,7 +17,7 @@ struct ContentView: View {
             
             
             HStack {
-                WeightEnteryView(weightData: weightData)
+                WeightEnteryView(weightData: weightData, patient: $patient)
                 Divider()
                 VStack {
                     EventListView(weightData: weightData)

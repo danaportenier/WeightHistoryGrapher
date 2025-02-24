@@ -10,11 +10,31 @@ struct DemographicsEnteryView: View {
     @Binding var dobYear: String
     @Environment(\.dismiss) var dismiss
 
-    // Define focus states
     @FocusState private var focusedField: Field?
 
     enum Field {
         case name, heightFeet, heightInches, dobDay, dobMonth, dobYear, saveButton
+    }
+
+    var isValid: Bool {
+        guard let feet = Int(heightFeet), (3...8).contains(feet),
+              let inches = Int(heightInches), (0...12).contains(inches),
+              let month = Int(dobMonth), (1...12).contains(month),
+              let day = Int(dobDay), (1...31).contains(day),
+              let year = Int(dobYear), (1930...3000).contains(year) else {
+            return false
+        }
+        return true
+    }
+    
+    private func validateYear() {
+        if let year = Int(dobYear) {
+            if year < 1930 {
+                dobYear = "1930"
+            } else if year > 3000 {
+                dobYear = "3000"
+            }
+        }
     }
 
     var body: some View {
@@ -26,9 +46,8 @@ struct DemographicsEnteryView: View {
             Text("Patient Name")
                 .bold()
             TextField("Name", text: $name)
-                .textFieldStyle(.roundedBorder)
+                .textFieldStyle(.plain)
                 .focused($focusedField, equals: .name)
-                .submitLabel(.next)
                 .onSubmit { focusedField = .heightFeet }
 
             VStack(alignment: .leading, spacing: 10) {
@@ -36,18 +55,24 @@ struct DemographicsEnteryView: View {
                     .bold()
                 HStack {
                     TextField("Feet", text: $heightFeet)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(.plain)
                         .frame(width: 80)
                         .focused($focusedField, equals: .heightFeet)
-                        .submitLabel(.next)
+                        .onChange(of: heightFeet) { newValue in
+                            if let feet = Int(newValue), feet < 3 { heightFeet = "3" }
+                            if let feet = Int(newValue), feet > 8 { heightFeet = "8" }
+                        }
                         .onSubmit { focusedField = .heightInches }
 
                     TextField("Inches", text: $heightInches)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(.plain)
                         .frame(width: 80)
                         .focused($focusedField, equals: .heightInches)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .dobDay }
+                        .onChange(of: heightInches) { newValue in
+                            if let inches = Int(newValue), inches < 0 { heightInches = "0" }
+                            if let inches = Int(newValue), inches > 12 { heightInches = "12" }
+                        }
+                        .onSubmit { focusedField = .dobMonth }
                 }
             }
 
@@ -56,24 +81,35 @@ struct DemographicsEnteryView: View {
                     .bold()
                 HStack {
                     TextField("Month", text: $dobMonth)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(.plain)
                         .frame(width: 60)
                         .focused($focusedField, equals: .dobMonth)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .dobYear }
-                    
+                        .onChange(of: dobMonth) { newValue in
+                            if let month = Int(newValue), month < 1 { dobMonth = "1" }
+                            if let month = Int(newValue), month > 12 { dobMonth = "12" }
+                        }
+                        .onSubmit { focusedField = .dobDay }
+
                     TextField("Day", text: $dobDay)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(.plain)
                         .frame(width: 60)
                         .focused($focusedField, equals: .dobDay)
-                        .submitLabel(.next)
-                        .onSubmit { focusedField = .dobMonth }
+                        .onChange(of: dobDay) { newValue in
+                            if let day = Int(newValue), day < 1 { dobDay = "1" }
+                            if let day = Int(newValue), day > 31 { dobDay = "31" }
+                        }
+                        .onSubmit { focusedField = .dobYear }
 
                     TextField("Year", text: $dobYear)
-                        .textFieldStyle(.roundedBorder)
+                        .textFieldStyle(.plain)
                         .frame(width: 100)
                         .focused($focusedField, equals: .dobYear)
-                        .submitLabel(.next)
+                        .onSubmit { validateYear() } // Validate only on submit
+                        .onChange(of: dobYear) { newValue in
+                            if let year = Int(newValue), year > 3000 {
+                                dobYear = "3000" // Immediate correction if absurdly large
+                            }
+                        }
                         .onSubmit { focusedField = .saveButton }
                 }
             }
@@ -90,10 +126,11 @@ struct DemographicsEnteryView: View {
                     dismiss()
                 }
                 .buttonStyle(.borderedProminent)
-                .focused($focusedField, equals: .saveButton) // Ensure focus moves to this button
-                .focusable(true) // Make sure macOS allows the button to receive keyboard focus
-                .keyboardShortcut(.defaultAction) // Allows pressing Return to trigger Save
-                .onSubmit { dismiss() } // Ensures pressing Return also dismisses the window
+                .disabled(!isValid)
+                .focused($focusedField, equals: .saveButton)
+                .focusable(true)
+                .keyboardShortcut(.defaultAction)
+                .onSubmit { dismiss() }
 
                 Button("Cancel") {
                     dismiss()
@@ -105,7 +142,7 @@ struct DemographicsEnteryView: View {
         .padding()
         .frame(width: 300, height: 250)
         .onAppear {
-            focusedField = .name // Start focus at the Name field
+            focusedField = .name
         }
     }
 }
