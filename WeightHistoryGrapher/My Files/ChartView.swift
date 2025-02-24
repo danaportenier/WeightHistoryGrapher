@@ -13,7 +13,7 @@ struct ChartView: View {
                 .font(.title2)
                 .bold()
                 .padding(.bottom, 20)
-            Spacer()
+            
 
             let sortedEntries = weightEntries.sorted { ($0.date) < ($1.date) }
             let minYear = sortedEntries.compactMap({ $0.date }).min() ?? 1935
@@ -22,11 +22,10 @@ struct ChartView: View {
             let maxWeight = sortedEntries.compactMap({ $0.weight }).max() ?? 800
 
             ZStack {
-                ScrollView(.horizontal) { // Allow scrolling if needed
                     Chart(sortedEntries.indices, id: \.self) { index in
                         let currentEntry = sortedEntries[index]
                         let previousEntry = index > 0 ? sortedEntries[index - 1] : nil
-                        let isRising = (previousEntry?.weight ?? currentEntry.weight) <= currentEntry.weight
+                       
                         
                         LineMark(
                             x: .value("Date", currentEntry.date),
@@ -47,36 +46,40 @@ struct ChartView: View {
                         .annotation(position: isNearTop ? .bottom : .top) {
                             let age = currentEntry.ageAtEntry(dobYear: patient.dobYearInt ?? 0) ?? 0
                             let bmi = currentEntry.bmiAtEntry(heightMeters: patient.heightMeters) ?? 0.0
-                            let weightString = String(format: "%.1f", currentEntry.weight)
-                            let bmiString = String(format: "%.1f", bmi)
-                            
-                            let annotationText = """
-                            \(currentEntry.label)
-                            Weight: \(weightString) lbs
-                            Age: \(age)
-                            BMI: \(bmiString)
-                            """
+                            let weightString = String(format: "%.0f", currentEntry.weight)
+                            let bmiString = String(format: "%.0f", bmi)
 
-                            
-
-                            Text(annotationText)
-                                .font(.headline)
-                                .bold()
-                                .foregroundColor(.blue)
-                                .padding(6)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 6)
-                                        .fill(Color.white.opacity(0.8))
-                                        .shadow(radius: 3)
-                                )
-                                .offset(
-                                    x: isNearRight ? -90 : (isNearLeft ? 50 : 0),
-                                    y: isNearTop ? -70 : (isNearBottom ? 30 : (index % 2 == 0) ? -50 : 30) // Move top annotations further down
-                                )
+                            VStack(alignment: .leading, spacing: 0.5) {
+                                
+                                Text("\(index + 1). \(currentEntry.label)")
+                                    .font(.caption)
+                                    .bold()
+                                    .foregroundColor(.white)
+                                Text("Age: \(age)")
+                                    .font(.caption2)
+                                    .foregroundColor(.white.opacity(0.8))
+                                HStack {
+                                    
+                                    Text("Weight: \(weightString) lbs")
+                                    Text("BMI: \(bmiString)")
+                                }
+                                .font(.caption2)
+                                .foregroundColor(.white.opacity(0.8))
+                            }
+                            .padding(4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .fill(Color.blue.opacity(0.8))
+                                    .shadow(radius: 2)
+                            )
+                            .offset(
+                                x: isNearRight ? -90 : (isNearLeft ? 50 : 0),
+                                y: isNearTop ? -70 : (isNearBottom ? 30 : (index % 2 == 0) ? -50 : 30) // Adjust placement
+                            )
                         }
                     }
-                    .chartXScale(domain: (minYear - 5)...(maxYear + 5)) // Expands the x-axis
-                    .chartYScale(domain: (minWeight - 20)...(maxWeight + 40)) // Add more space at the top
+                    .chartXScale(domain: (minYear - 5)...(maxYear + 5))
+                    .chartYScale(domain: (minWeight - 20)...(maxWeight + 40))
                     .chartXAxis {
                         AxisMarks(position: .bottom) { value in
                             AxisValueLabel {
@@ -101,7 +104,7 @@ struct ChartView: View {
                     .frame(height: 300)
                     .padding()
                     .frame(width: 900, height: 400) // Ensure the chart is properly sized
-                }
+                
             }
             .overlay(exportButtons, alignment: .bottomTrailing) // Fix overlay placement
         }
