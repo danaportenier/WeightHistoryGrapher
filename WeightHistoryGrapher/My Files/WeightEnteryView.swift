@@ -29,8 +29,55 @@ struct WeightEnteryView: View {
         
         HStack(alignment: .top, spacing: 10) {
             VStack(alignment: .leading, spacing: 10) {
+                VStack {
+                    HStack {
+                        Text("Step 1.")
+                            .bold()
+                            .font(.title)
+                            .foregroundColor(
+                                            (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                             patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
+                                             .red : .black
+                                        )
+                        Text("Enter Demographics")
+                            .font(.title2)
+                            .underline()
+                            .foregroundColor(
+                                            (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                             patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
+                                             .red : .black
+                                        )
+                    }
+                    
+                    Button("Demographics") {
+                        showDemographicsWindow = true
+                    }
+                    .padding()
+                    .buttonStyle(.borderedProminent)
+                    
+                    HStack {
+                        Text("Step 2.")
+                            .bold()
+                            .font(.title)
+                            .foregroundColor(
+                                            (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                             patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
+                                                .black : .red
+                                        )
+                        Text("Enter Weight History")
+                            .font(.title2)
+                            .underline()
+                            .foregroundColor(
+                                            (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                             patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
+                                             .black : .red
+                                        )
+                    }
+                }
                 
                 HStack {
+                    
+                    
                     Text("Time Point:")
                         .frame(width: 120, alignment: .leading)
                     TextField("Enter Significant Weight Time Point", text: $label)
@@ -84,12 +131,7 @@ struct WeightEnteryView: View {
                     .padding(.horizontal)
                     .buttonStyle(.borderedProminent)
                     
-                    Button("Demographics") {
-                        showDemographicsWindow = true
-                    }
-                    .padding(.top)
-                    .padding(.horizontal)
-                    .buttonStyle(.borderedProminent)
+                    
                 }
                 .padding(.bottom)
                 
