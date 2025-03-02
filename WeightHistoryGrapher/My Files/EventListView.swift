@@ -12,10 +12,11 @@ struct EventListView: View {
     @ObservedObject var weightData: WeightData
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
             Text("Weight Events")
                 .font(.title2)
                 .padding(.top, 2)
+                .underline()
             
             if !weightData.patient.weightEntries.isEmpty {
                 ForEach(weightData.patient.weightEntries, id: \.self) { entry in
@@ -52,9 +53,16 @@ struct EventListView: View {
                     .padding(.vertical, 4) // Add spacing between rows
                 }
             } else {
+                Spacer()
                 Text("Add Weight History")
+                Image("Chart")
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
             }
         }
+        .padding(.top, 20)
         .padding()
     }
     

@@ -21,6 +21,7 @@ struct ContentView: View {
                 WeightEnteryView(weightData: weightData, patient: $patient)
                     .frame(width: 800)
                 Divider()
+                Spacer()
                 EventListView(weightData: weightData)
                 Spacer()
             }
