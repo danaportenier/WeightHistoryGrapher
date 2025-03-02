@@ -12,6 +12,10 @@ struct ChartView: View {
                 .font(.title2)
                 .bold()
                 .padding(.bottom, 20)
+            if !patient.name.isEmpty {
+                Text("Patient: \(patient.name)")
+                    .font(.headline)
+            }
 
             ZStack {
                 ChartDesign(weightEntries: weightEntries, patient: patient)

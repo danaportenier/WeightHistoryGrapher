@@ -52,8 +52,19 @@ struct WeightEnteryView: View {
                     Button("Demographics") {
                         showDemographicsWindow = true
                     }
-                    .padding()
+                    .padding(
+                        (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                         patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? 20 : 10
+                    )
                     .buttonStyle(.borderedProminent)
+                    .controlSize(
+                        (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                         patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .large : .regular
+                    )
+                    .tint(
+                        (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                         patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .red : .blue
+                    )
                     
                     HStack {
                         Text("Step 2.")

@@ -52,7 +52,7 @@ struct EventListView: View {
                     .padding(.vertical, 4) // Add spacing between rows
                 }
             } else {
-                Text("Enter some Events")
+                Text("Add Weight History")
             }
         }
         .padding()

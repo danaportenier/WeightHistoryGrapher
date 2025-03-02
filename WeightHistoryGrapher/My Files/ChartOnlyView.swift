@@ -8,10 +8,18 @@ struct ChartOnlyView: View {
 
     var body: some View {
         VStack {
-            Text("Significant Weight History")
-                .font(.title2)
-                .bold()
-                .padding(.bottom, 20)
+            VStack(spacing: 0) {
+                Text("Significant Weight History")
+                    .font(.title2)
+                    .bold()
+                    if !patient.name.isEmpty {
+                    Text("Patient: \(patient.name)")
+                        .font(.headline)
+                        Spacer()
+                }
+            }
+            .padding(.bottom, 20)
+
 
             ZStack {
                 ChartDesign(weightEntries: weightEntries, patient: patient)
