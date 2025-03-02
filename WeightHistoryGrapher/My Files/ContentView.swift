@@ -19,6 +19,7 @@ struct ContentView: View {
             
             HStack {
                 WeightEnteryView(weightData: weightData, patient: $patient)
+                    .frame(width: 800)
                 Divider()
                 EventListView(weightData: weightData)
                 Spacer()
