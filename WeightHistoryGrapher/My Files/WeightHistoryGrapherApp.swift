@@ -11,6 +11,13 @@ struct WeightHistoryGrapherApp: App {
         }
         .windowToolbarStyle(.expanded)
         .commands {
+            CommandGroup(replacing: .help) {
+                    Button("Website & Privacy Policy") {
+                        if let url = URL(string: "https://saucysolutions.org/weight-history-grapher/") {
+                            NSWorkspace.shared.open(url)
+                        }
+                    }
+                }
             CommandMenu("WeightGrapher") {
                 Button("Add Demographics") {
                     showDemographicsWindow.toggle() 
