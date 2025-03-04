@@ -1,11 +1,48 @@
 import SwiftUI
 
+
+enum LifeEventCategory: String, CaseIterable, Codable {
+    case pickOne = "Pick One"
+    case graduatedHighSchool = "Graduated High School"
+    case graduatedCollege = "Graduated College"
+    case gotMarried = "Got Married"
+    case hadBaby = "Had a Baby"
+    case gotDivorced = "Got Divorced"
+    case moved = "Moved to a New City"
+    case changedCareers = "Changed Job/Careers"
+    case lifeStress = "New Stress"
+    case lostLovedOne = "Lost a Loved One"
+    case startedWorkout = "Started a New Workout Program"
+    case startedDiet = "Started a Diet/Nutrition Plan"
+    case startedMedication = "Started/Stopped Medication"
+    case startedWeigthLossMedication = "Started/Stopped a Weight Loss Medication"
+    case surgery = "Underwent Surgery"
+    case bariatricSurgery = "Underwent Bariatric Surgery"
+    case quitSmoking = "Quit Smoking"
+    case stoppedDrinking = "Stopped Drinking Alcohol"
+    case chronicIllness = "Diagnosed with a Chronic Illness"
+    case mentalHealthTreatment = "Began Mental Health Treatment"
+    case majorStress = "Experienced Major Stress/Depression"
+    case menopause = "Menopause"
+    case retirement = "Retirement"
+    case other = "Other"
+}
+
 // Represents a single weight entry at a specific time point
-struct WeightEntry: Identifiable, Hashable {
-    let id: UUID = UUID()
+struct WeightEntry: Identifiable, Hashable, Codable {
+    var id: UUID = UUID()
     var date: Int
     var weight: Double
     var label: String
+    var category: LifeEventCategory
+    
+    init(id: UUID = UUID(), date: Int, weight: Double, label: String, category: LifeEventCategory) {
+            self.id = id
+            self.date = date
+            self.weight = weight
+            self.label = label
+            self.category = category
+        }
     
     func ageAtEntry(dobYear: Int) -> Int? {
             guard dobYear > 0 else { return nil }
@@ -20,8 +57,8 @@ struct WeightEntry: Identifiable, Hashable {
     }
 }
 
-struct Patient: Identifiable, Hashable {
-    let id: UUID = UUID()
+struct Patient: Identifiable, Hashable, Codable {
+    var id: UUID = UUID()
     var name: String = ""
     var heightFeet: String = ""
     var heightInches: String = ""

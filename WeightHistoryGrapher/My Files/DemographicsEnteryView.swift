@@ -12,6 +12,8 @@ struct DemographicsEnteryView: View {
 
     @FocusState private var focusedField: Field?
 
+    
+    
     enum Field {
         case name, heightFeet, heightInches, dobDay, dobMonth, dobYear, saveButton
     }

@@ -7,20 +7,20 @@ struct WeightEnteryView: View {
     @State private var label: String = ""
     @State private var weightText: String = "" // Holds raw input as String
     @State private var dateText: String = ""   // Holds raw input as String
-    
+    @State private var selectedCategory: LifeEventCategory = .pickOne
     @State private var showDemographicsWindow = false
 
     // Focus
     @FocusState private var focusedField: Field?
     
     enum Field {
-        case label, weight, date, addButton
+        case demographics, category, label, weight, date, addButton
     }
     
     /// ✅ Computed property to check if entry is valid
     var isValidEntry: Bool {
         if let weight = Double(weightText), let date = Int(dateText) {
-            return (90...1500).contains(weight) && (1915...3000).contains(date)
+            return (90...1500).contains(weight) && (1915...3000).contains(date) && selectedCategory != .pickOne
         }
         return false
     }
@@ -31,44 +31,47 @@ struct WeightEnteryView: View {
             VStack(alignment: .leading, spacing: 10) {
                 VStack(alignment: .leading) {
                     HStack {
-                    VStack {
-                        HStack {
-                            Text("Step 1.")
-                                .bold()
-                                .font(.title)
-                                .foregroundColor(
-                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
-                                        .red : .black
-                                )
-                            Text("Enter Demographics")
-                                .font(.title2)
-                                .underline()
+                        VStack {
+                            HStack {
+                                Text("Step 1.")
+                                    .bold()
+                                    .font(.title)
+                                    .foregroundColor(
+                                        (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                         patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
+                                            .red : .black
+                                    )
+                                Text("Enter Demographics")
+                                    .font(.title2)
+                                    .underline()
+                                
+                            }
+                            
+                            Button("Demographics") {
+                                showDemographicsWindow = true
+                            }
+                            .focused($focusedField, equals: .demographics)
+                            .focusable(true)
+                            .keyboardShortcut(.defaultAction)
+                            .padding(
+                                (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                 patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? 20 : 10
+                            )
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(
+                                (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                 patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .large : .regular
+                            )
+                            .tint(
+                                (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                 patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .red : .blue
+                            )
                             
                         }
-                        
-                        Button("Demographics") {
-                            showDemographicsWindow = true
-                        }
-                        .padding(
-                            (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                             patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? 20 : 10
-                        )
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(
-                            (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                             patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .large : .regular
-                        )
-                        .tint(
-                            (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                             patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .red : .blue
-                        )
-                        
+                        .padding(10)
+                        .overlay((patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                  patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? Rectangle().stroke(Color.gray, lineWidth: 1) : nil)
                     }
-                    .padding(10)
-                    .overlay((patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                              patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? Rectangle().stroke(Color.gray, lineWidth: 1) : nil)
-                }
                     if (!patient.heightFeet.isEmpty && !patient.heightInches.isEmpty &&
                         !patient.dobMonth.isEmpty && !patient.dobDay.isEmpty && !patient.dobYear.isEmpty) {
                         DemographicsView(weightData: weightData)
@@ -93,9 +96,22 @@ struct WeightEnteryView: View {
                             
                         }
                         
-                        
+                        HStack {
+                            Text("Life Event:")
+                                .frame(width: 120, alignment: .leading)
+                            Picker("", selection: $selectedCategory) {
+                                ForEach(LifeEventCategory.allCases, id: \.self) { category in
+                                    Text(category.rawValue).tag(category)
+                                }
+                            }
+//                            .pickerStyle(PopUpButtonPickerStyle())
+                            .focusable(true)
+                            .focused($focusedField, equals: .category) // ✅ Make Picker focusable
+                            .onSubmit { focusedField = .label }
+                        }
                         
                         HStack {
+                            
                             
                             
                             Text("Description:")
@@ -128,12 +144,15 @@ struct WeightEnteryView: View {
                                 .submitLabel(.next)
                                 .onSubmit { validateDate() } // ✅ Validate when leaving field
                         }
-                        
+                        // FIXME: working on focus to include drop down menu
                         HStack {
                             Button("Add") {
                                 guard let weight = Double(weightText), let date = Int(dateText) else { return }
-                                weightData.addWeightEntry(date: date, weight: weight, label: label)
+                                weightData.addWeightEntry(date: date, weight: weight, label: label, category: selectedCategory) // ✅ Pass selectedCategory
                                 resetFields()
+                                DispatchQueue.main.async {
+                                        focusedField = .category
+                                    }
                             }
                             .buttonStyle(.borderedProminent)
                             .disabled(!isValidEntry) // ✅ Disable button if invalid input
@@ -145,7 +164,10 @@ struct WeightEnteryView: View {
                             
                             Button("Reset All") {
                                 weightData.resetAll()
-                                patient.resetAll()
+                                resetFields()
+                                DispatchQueue.main.async {
+                                    focusedField = .demographics // Re-focus to dropdown after reset
+                                }
                             }
                             .padding(.top)
                             .padding(.horizontal)
@@ -158,7 +180,7 @@ struct WeightEnteryView: View {
                     .padding()
                     .overlay((!patient.heightFeet.isEmpty && !patient.heightInches.isEmpty &&
                               !patient.dobMonth.isEmpty && !patient.dobDay.isEmpty && !patient.dobYear.isEmpty) ? Rectangle().stroke(Color.gray, lineWidth: 1) : nil)
-            }
+                }
                 
             }
         }
@@ -175,7 +197,16 @@ struct WeightEnteryView: View {
         }
         .padding()
         .onAppear {
-            // ✅ Populate text fields with default values
+            DispatchQueue.main.async {
+                if patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                    patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty {
+                    if focusedField != .addButton {
+                        focusedField = .demographics
+                    }
+                } else {
+                    focusedField = .category
+                }
+            }
             weightText = "0"
             dateText = "2025"
         }
@@ -212,6 +243,7 @@ struct WeightEnteryView: View {
         label = ""
         weightText = "0"
         dateText = "2025"
+        selectedCategory = .pickOne
     }
 }
 
