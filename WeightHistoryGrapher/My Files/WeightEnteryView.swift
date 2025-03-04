@@ -52,7 +52,6 @@ struct WeightEnteryView: View {
                             }
                             .focused($focusedField, equals: .demographics)
                             .focusable(true)
-                            .keyboardShortcut(.defaultAction)
                             .padding(
                                 (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
                                  patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? 20 : 10

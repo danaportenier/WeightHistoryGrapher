@@ -8,22 +8,27 @@ struct ChartView: View {
 
     var body: some View {
         VStack {
+            VStack {
             Text("Significant Weight History")
                 .font(.title2)
                 .bold()
-                .padding(.bottom, 20)
             if !patient.name.isEmpty {
-                Text("Patient: \(patient.name)")
+                Text("(Patient: \(patient.name))")
                     .font(.headline)
             }
+        }
+            .padding(.bottom, 20)
 
             ZStack {
-                ChartDesign(weightEntries: weightEntries, patient: patient)
-                    .frame(height: 300)
-                    .padding()
-                    .frame(width: 900, height: 400)
+                GeometryReader { geometry in
+                    ChartDesign(weightEntries: weightEntries, patient: patient)
+                        .frame(minWidth: 300, maxWidth: .infinity, minHeight: 300, maxHeight: .infinity)
+                        .padding()
+                }
             }
+            .frame(minWidth: 900, minHeight: 400) // Ensures a minimum frame size
             .overlay(exportButtons, alignment: .bottomTrailing)
+            .padding(.bottom)
         }
     }
 
