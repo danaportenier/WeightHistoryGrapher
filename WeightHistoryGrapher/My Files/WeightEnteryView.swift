@@ -32,7 +32,7 @@ struct WeightEnteryView: View {
                 VStack(alignment: .leading) {
                     HStack {
                         VStack {
-                            HStack {
+                            HStack(alignment: .bottom) {
                                 Text("Step 1.")
                                     .bold()
                                     .font(.title)
@@ -45,26 +45,32 @@ struct WeightEnteryView: View {
                                     .font(.title2)
                                     .underline()
                                 
+                                Text("Command + D (⌘ D)")
+                                    .font(.caption)
+                                    .bold()
+                                    .foregroundColor(.gray.opacity(0.8))
+                                
                             }
                             
-                            Button("Demographics") {
-                                showDemographicsWindow = true
-                            }
-                            .focused($focusedField, equals: .demographics)
-                            .focusable(true)
-                            .padding(
-                                (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                 patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? 20 : 10
-                            )
-                            .buttonStyle(.borderedProminent)
-                            .controlSize(
-                                (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                 patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .large : .regular
-                            )
-                            .tint(
-                                (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                 patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .red : .blue
-                            )
+                                Button("Demographics") {
+                                    showDemographicsWindow = true
+                                }
+                                .focused($focusedField, equals: .demographics)
+                                .focusable(true)
+                                .padding(
+                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? 20 : 10
+                                )
+                                .buttonStyle(.borderedProminent)
+                                .controlSize(
+                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .large : .regular
+                                )
+                                .tint(
+                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
+                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .red : .blue
+                                )
+                                
                             
                         }
                         .padding(10)
@@ -80,7 +86,7 @@ struct WeightEnteryView: View {
                         EmptyView()
                     }
                     VStack(alignment: .leading) {
-                        HStack {
+                        HStack(alignment: .bottom) {
                             Text("Step 2.")
                                 .bold()
                                 .font(.title)
@@ -92,6 +98,10 @@ struct WeightEnteryView: View {
                             Text("Enter Weight History")
                                 .font(.title2)
                                 .underline()
+                            
+                            Text("Reset All: Shift + Command + R (⇧⌘ R)")
+                                .font(.caption)
+                                .foregroundColor(.gray.opacity(0.6))
                             
                         }
                         
@@ -150,8 +160,8 @@ struct WeightEnteryView: View {
                                 weightData.addWeightEntry(date: date, weight: weight, label: label, category: selectedCategory) // ✅ Pass selectedCategory
                                 resetFields()
                                 DispatchQueue.main.async {
-                                        focusedField = .category
-                                    }
+                                    focusedField = .category
+                                }
                             }
                             .buttonStyle(.borderedProminent)
                             .disabled(!isValidEntry) // ✅ Disable button if invalid input
@@ -172,7 +182,7 @@ struct WeightEnteryView: View {
                             .padding(.horizontal)
                             .buttonStyle(.borderedProminent)
                             
-                            
+                        
                         }
                         .padding(.bottom)
                     }
