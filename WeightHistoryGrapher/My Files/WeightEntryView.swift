@@ -7,9 +7,10 @@ struct WeightEntryView: View {
     @Binding var patient: Patient
     @State private var label: String = ""
     @State private var weightText: String = "" // Holds raw input as String
-    @State private var selectedDate = Date()
+    @State private var selectedYear = Calendar.current.component(.year, from: Date())
     @State private var selectedCategory: LifeEventCategory = .pickOne
     @State private var showDemographicsWindow = false
+    @State private var demographicsUpdated = false
 
     // Focus
     @FocusState private var focusedField: Field?
@@ -28,10 +29,16 @@ struct WeightEntryView: View {
     
     // Add this computed property to simplify demographic checks
     private var isDemographicsEmpty: Bool {
-        patient.heightFeet.isEmpty &&
-        patient.heightInches.isEmpty &&
-        patient.dateOfBirth == nil
+        let isEmpty = patient.heightFeet.isEmpty ||
+                      patient.heightInches.isEmpty ||
+                      patient.dateOfBirth == nil
         
+        print("Height Feet Empty: \(patient.heightFeet.isEmpty)")
+        print("Height Inches Empty: \(patient.heightInches.isEmpty)")
+        print("Date of Birth Nil: \(patient.dateOfBirth == nil)")
+        print("isDemographicsEmpty: \(isEmpty)")
+        
+        return isEmpty
     }
     
     var body: some View {
@@ -130,12 +137,10 @@ struct WeightEntryView: View {
                         }
                         
                         HStack {
-                            DatePicker(
-                                "Select a Date",
-                                selection: $selectedDate,
-                                displayedComponents: .date
-                            )
-                            .frame(width: 150)
+                            Text("Select a Year:")
+                                .frame(width: 120, alignment: .leading)
+                            YearTextField(selectedYear: $selectedYear)
+                                .frame(width: 80)
                             .focused($focusedField, equals: .date)
                             .submitLabel(.next)
                             .onSubmit { validateDate() } // ✅ Validate when leaving field
@@ -144,7 +149,9 @@ struct WeightEntryView: View {
                         HStack {
                             Button("Add") {
                                 guard let weight = Double(weightText) else { return }
-                                weightData.addWeightEntry(date: selectedDate, weight: weight, label: label, category: selectedCategory) // ✅ Pass selectedCategory
+                                let calendar = Calendar.current
+                                let selectedDate = calendar.date(from: DateComponents(year: selectedYear)) ?? Date()
+                                weightData.addWeightEntry(date: selectedDate, weight: weight, label: label, category: selectedCategory)
                                 resetFields()
                                 DispatchQueue.main.async {
                                     focusedField = .category
@@ -179,7 +186,9 @@ struct WeightEntryView: View {
                 
             }
         }
-        .sheet(isPresented: $showDemographicsWindow) {
+        .sheet(isPresented: $showDemographicsWindow, onDismiss: {
+            demographicsUpdated.toggle()
+        }) {
             DemographicsEntryView(
                 weightData: weightData,
                 name: $patient.name,
@@ -188,10 +197,19 @@ struct WeightEntryView: View {
                 dateOfBirth: $patient.dateOfBirth
             )
         }
+        .onChange(of: demographicsUpdated) { _ in
+            DispatchQueue.main.async {
+                if patient.heightFeet.isEmpty || patient.heightInches.isEmpty || patient.dateOfBirth == nil {
+                    focusedField = .demographics
+                } else {
+                    focusedField = .category
+                }
+            }
+        }
         .padding()
         .onAppear {
             DispatchQueue.main.async {
-                if isDemographicsEmpty {
+                if patient.heightFeet.isEmpty || patient.heightInches.isEmpty || patient.dateOfBirth == nil {
                     if focusedField != .addButton {
                         focusedField = .demographics
                     }
@@ -217,33 +235,13 @@ struct WeightEntryView: View {
     }
     
     private func validateDate() {
-        // Get calendar and components for date validation
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year], from: selectedDate)
-        let currentYear = components.year ?? 2025
-        
-        // Set minimum and maximum years
         let minYear = 1915
         let maxYear = 3000
         
-        // Check if the year is outside valid range
-        if currentYear < minYear || currentYear > maxYear {
-            // Create a valid default date
-            var defaultComponents = DateComponents()
-            defaultComponents.year = min(max(currentYear, minYear), maxYear)
-            
-            // Try to get other components from the original date
-            let originalComponents = calendar.dateComponents([.month, .day], from: selectedDate)
-            defaultComponents.month = originalComponents.month
-            defaultComponents.day = originalComponents.day
-            
-            // Set the selectedDate to the validated date
-            if let validDate = calendar.date(from: defaultComponents) {
-                selectedDate = validDate
-            } else {
-                // Fallback to current date if something goes wrong
-                selectedDate = Date()
-            }
+        if selectedYear < minYear {
+            selectedYear = minYear
+        } else if selectedYear > maxYear {
+            selectedYear = maxYear
         }
     }
     
@@ -251,7 +249,7 @@ struct WeightEntryView: View {
     private func resetFields() {
         label = ""
         weightText = "0"
-        selectedDate = Date()
+        selectedYear = Calendar.current.component(.year, from: Date()) // Reset to current year
         selectedCategory = .pickOne
     }
 }
