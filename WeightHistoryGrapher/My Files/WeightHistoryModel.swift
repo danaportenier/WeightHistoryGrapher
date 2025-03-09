@@ -31,12 +31,12 @@ enum LifeEventCategory: String, CaseIterable, Codable {
 // Represents a single weight entry at a specific time point
 struct WeightEntry: Identifiable, Hashable, Codable {
     var id: UUID = UUID()
-    var date: Int
+    var date: Date
     var weight: Double
     var label: String
     var category: LifeEventCategory
     
-    init(id: UUID = UUID(), date: Int, weight: Double, label: String, category: LifeEventCategory) {
+    init(id: UUID = UUID(), date: Date, weight: Double, label: String, category: LifeEventCategory) {
             self.id = id
             self.date = date
             self.weight = weight
@@ -44,10 +44,13 @@ struct WeightEntry: Identifiable, Hashable, Codable {
             self.category = category
         }
     
-    func ageAtEntry(dobYear: Int) -> Int? {
-            guard dobYear > 0 else { return nil }
-            return max(0, date - dobYear) // Ensure non-negative age
+    func ageAtEntry(dob: Date?) -> Int? {
+            guard let dob = dob else { return nil }
+            let calendar = Calendar.current
+            let components = calendar.dateComponents([.year], from: dob, to: date)
+            return components.year
         }
+
 
 
     func bmiAtEntry(heightMeters: Double) -> Double? {
@@ -62,19 +65,16 @@ struct Patient: Identifiable, Hashable, Codable {
     var name: String = ""
     var heightFeet: String = ""
     var heightInches: String = ""
-    var dobDay: String = ""
-    var dobMonth: String = ""
-    var dobYear: String = ""
+    var dateOfBirth: Date?
     var weightEntries: [WeightEntry] = []
-
+    
     mutating func resetAll() {
-            name = ""
-            heightFeet = ""
-            heightInches = ""
-            dobDay = ""
-            dobMonth = ""
-            dobYear = ""
-        }
+        name = ""
+        heightFeet = ""
+        heightInches = ""
+        dateOfBirth = nil
+        weightEntries.removeAll()
+    }
     
     var heightMeters: Double {
         let feet = Double(heightFeet) ?? 0
@@ -82,31 +82,20 @@ struct Patient: Identifiable, Hashable, Codable {
         let totalHeightInches = (feet * 12) + inches
         return totalHeightInches * 0.0254
     }
-
+    
     var currentBMI: Double? {
         guard let latestWeight = weightEntries.last?.weight else { return nil }
         return latestWeight / (heightMeters * heightMeters)
     }
     
-    var dobYearInt: Int? {
-            return Int(dobYear)
-        }
+    
     
     var currentAge: Int? {
-            guard let day = Int(dobDay),
-                  let month = Int(dobMonth),
-                  let year = Int(dobYear) else {
-                return nil  // Return nil if date of birth is not set correctly
-            }
-
-            let calendar = Calendar.current
-            let birthDateComponents = DateComponents(year: year, month: month, day: day)
-            guard let birthDate = calendar.date(from: birthDateComponents) else {
-                return nil
-            }
-
-            let today = Date()
-            let ageComponents = calendar.dateComponents([.year], from: birthDate, to: today)
-            return ageComponents.year
-        }
+        guard let dob = dateOfBirth else { return nil }
+        let calendar = Calendar.current
+        let now = Date()
+        let ageComponents = calendar.dateComponents([.year], from: dob, to: now)
+        return ageComponents.year
+    }
+    
 }

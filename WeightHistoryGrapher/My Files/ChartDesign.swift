@@ -6,7 +6,7 @@ struct ChartDesign: View {
     let patient: Patient
     
     // Allow toggles to show/hide these fields in chart annotations
-    let showYear: Bool
+    let showDate: Bool
     let showDescription: Bool
     let showAge: Bool
     let showBMI: Bool
@@ -17,19 +17,7 @@ struct ChartDesign: View {
         weightEntries.sorted { $0.date < $1.date }
     }
     
-    // Compute the min/max year, min/max weight for chart scaling
-    private var minYear: Int {
-        sortedEntries.map(\.date).min() ?? 1930
-    }
-    private var maxYear: Int {
-        sortedEntries.map(\.date).max() ?? 2050
-    }
-    private var minWeight: Double {
-        sortedEntries.map(\.weight).min() ?? 90
-    }
-    private var maxWeight: Double {
-        sortedEntries.map(\.weight).max() ?? 500
-    }
+    
     
     var body: some View {
         Chart {
@@ -47,21 +35,15 @@ struct ChartDesign: View {
                     y: .value("Weight", entry.weight)
                 )
                 .foregroundStyle(.blue)
-                .annotation(position: smartAnnotationPosition(for: index)) {
-                    annotationContent(for: entry, index: index)
-                }
+                .annotation {
+                            annotationContent(for: entry, index: index)
+                                }
             }
         }
-        .chartXScale(domain: (minYear - 5)...(maxYear + 5))
-        .chartYScale(domain: (minWeight - 20)...(maxWeight + 40))
+        
         .chartXAxis {
             AxisMarks(position: .bottom) { value in
-                AxisValueLabel {
-                    if let intValue = value.as(Int.self) {
-                        // Prevent commas for years
-                        Text("\(intValue.formatted(.number.grouping(.never)))")
-                    }
-                }
+                    AxisValueLabel(format:.dateTime.year())
             }
         }
         .chartYAxis {
@@ -79,28 +61,14 @@ struct ChartDesign: View {
     
     // MARK: - Customizing Annotation Position
     
-    private func smartAnnotationPosition(for index: Int) -> AnnotationPosition {
-        // If this is the first data point, just put annotation on top
-        guard index > 0 else { return .top }
-        
-        let currentX = sortedEntries[index].date
-        let previousX = sortedEntries[index - 1].date
-        
-        // If points are too close in X, alternate top/bottom to avoid overlap
-        let isTooClose = abs(currentX - previousX) < 5
-        if isTooClose {
-            return index.isMultiple(of: 2) ? .bottom : .top
-        } else {
-            return index.isMultiple(of: 2) ? .top : .bottom
-        }
-    }
+   
     
     // MARK: - Building the Annotation View
     
     @ViewBuilder
     private func annotationContent(for entry: WeightEntry, index: Int) -> some View {
-        let formattedDate = entry.date.formatted(.number.grouping(.never))
-        let age = entry.ageAtEntry(dobYear: patient.dobYearInt ?? 0) ?? 0
+        let formattedDate = entry.date.formatted(.dateTime.year())
+        let age = entry.ageAtEntry(dob: patient.dateOfBirth) ?? 0
         let bmi = entry.bmiAtEntry(heightMeters: patient.heightMeters) ?? 0.0
         let weightString = String(format: "%.0f", entry.weight)
         let bmiString = String(format: "%.0f", bmi)
@@ -114,7 +82,7 @@ struct ChartDesign: View {
                     .foregroundColor(.black)
                 
                 // Show year only if "Show Year" is toggled
-                if showYear {
+                if showDate {
                     Text("\(formattedDate)")
                         .font(.caption)
                         .bold()

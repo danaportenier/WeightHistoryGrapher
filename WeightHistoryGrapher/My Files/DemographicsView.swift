@@ -9,6 +9,12 @@ import SwiftUI
 
 struct DemographicsView: View {
     @ObservedObject var weightData: WeightData
+    
+    private let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            return formatter
+        }()
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -18,9 +24,8 @@ struct DemographicsView: View {
             
             if weightData.patient.heightFeet.isEmpty ||
                 weightData.patient.heightInches.isEmpty ||
-                weightData.patient.dobDay.isEmpty ||
-                weightData.patient.dobMonth.isEmpty ||
-                weightData.patient.dobYear.isEmpty {
+                weightData.patient.dateOfBirth == nil
+               {
                 
                 Text("Enter Patient Demographics")
                     .font(.headline)
@@ -29,7 +34,7 @@ struct DemographicsView: View {
             } else {
                 HStack(spacing: 16) { // Use HStack instead of VStack
                     Text("Height: \(weightData.patient.heightFeet) ft \(weightData.patient.heightInches) in")
-                    Text("DOB: \(weightData.patient.dobMonth)/\(weightData.patient.dobDay)/\(weightData.patient.dobYear)")
+                    Text("DOB: \(dateFormatter.string(from: weightData.patient.dateOfBirth ?? Date()))")
                     Text("Patient Name: \(weightData.patient.name)")
                     Text("Age: \(weightData.patient.currentAge ?? 30)")
                 }

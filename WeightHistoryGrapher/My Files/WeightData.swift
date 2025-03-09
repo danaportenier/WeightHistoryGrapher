@@ -30,7 +30,9 @@ class WeightData: ObservableObject {
         objectWillChange.send() // Force UI update
     }
 
-    func addWeightEntry(date: Int, weight: Double, label: String, category: LifeEventCategory) {
-        patient.weightEntries.append(WeightEntry(date: date, weight: weight, label: label, category: category))
+    func addWeightEntry(date: Date, weight: Double, label: String, category: LifeEventCategory) {
+        patient.weightEntries.append(
+            WeightEntry(date: date, weight: weight, label: label, category: category)
+        )
     }
 }

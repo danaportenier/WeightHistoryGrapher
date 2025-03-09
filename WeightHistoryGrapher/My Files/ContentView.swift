@@ -33,21 +33,13 @@ struct ContentView: View {
         }
         .background(Color.white) // White background
                     .ignoresSafeArea()
-                    .navigationTitle("")
                     .sheet(isPresented: $showDemographicsWindow) { 
                         DemographicsEntryView(
                             weightData: weightData,
                             name: $weightData.patient.name,
                             heightFeet: $weightData.patient.heightFeet,
                             heightInches: $weightData.patient.heightInches,
-                            dobDay: $weightData.patient.dobDay,
-                            dobMonth: $weightData.patient.dobMonth,
-                            dobYear: $weightData.patient.dobYear)
-                    }
-                    .toolbar {
-                        ToolbarItem(placement: .principal) {
-                               
-                            }
+                            dateOfBirth: $weightData.patient.dateOfBirth)
                     }
                     .toolbarBackground(Color(red: 0.000, green: 0.325, blue: 0.608, opacity: 1.000), for: .automatic) // Set toolbar color
                     

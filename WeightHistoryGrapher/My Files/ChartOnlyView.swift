@@ -36,7 +36,7 @@ struct ChartOnlyView: View {
                 ChartDesign(
                     weightEntries: weightEntries,
                     patient: patient,
-                    showYear: showYear,
+                    showDate: showYear,
                     showDescription: showDescription,
                     showAge: showAge,
                     showBMI: showBMI,

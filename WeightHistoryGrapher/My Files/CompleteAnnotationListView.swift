@@ -18,7 +18,7 @@ struct CompleteAnnotationListView: View {
                 // Enumerate sorted entries
                 ForEach(sortedEntries.indices, id: \.self) { i in
                     let entry = sortedEntries[i]
-                    let age = entry.ageAtEntry(dobYear: patient.dobYearInt ?? 0) ?? 0
+                    let age = entry.ageAtEntry(dob: patient.dateOfBirth) ?? 0
                     let bmi = entry.bmiAtEntry(heightMeters: patient.heightMeters) ?? 0.0
                     let weightString = String(format: "%.0f", entry.weight)
 
@@ -28,7 +28,7 @@ struct CompleteAnnotationListView: View {
                         HStack(spacing: 6) {
                             Text("\(i + 1).") // E.g. "1." with no "Index:"
                                 .fontWeight(.bold)
-                            Text("\(entry.date.formatted(.number.grouping(.never)))")
+                            Text("\(entry.date.formatted(.dateTime.year()))")
                             HStack(spacing: 0) {
                             Text("\(entry.category.rawValue)")
                             // Label (if any)

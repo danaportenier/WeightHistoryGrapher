@@ -7,7 +7,7 @@ struct ChartView: View {
     let patient: Patient
 
     // Toggles for chart annotation fields
-    @State private var showYear = true
+    @State private var showDate = true
     @State private var showDescription = true
     @State private var showAge = true
     @State private var showBMI = true
@@ -36,7 +36,7 @@ struct ChartView: View {
                 
                 // 2) Row of Toggles
                 HStack(spacing: 16) {
-                    Toggle("Show Year", isOn: $showYear)
+                    Toggle("Show Year", isOn: $showDate)
                     Toggle("Show Description", isOn: $showDescription)
                     Toggle("Show Age", isOn: $showAge)
                     Toggle("Show BMI", isOn: $showBMI)
@@ -52,7 +52,7 @@ struct ChartView: View {
                     ChartDesign(
                         weightEntries: weightEntries,
                         patient: patient,
-                        showYear: showYear,
+                        showDate: showDate,
                         showDescription: showDescription,
                         showAge: showAge,
                         showBMI: showBMI,
@@ -109,7 +109,7 @@ struct ChartView: View {
             let content = ChartOnlyView(
                 weightEntries: $weightEntries,
                 patient: patient,
-                showYear: showYear,
+                showYear: showDate,
                 showDescription: showDescription,
                 showAge: showAge,
                 showBMI: showBMI,
@@ -137,7 +137,7 @@ struct ChartView: View {
             let content = ChartOnlyView(
                 weightEntries: $weightEntries,
                 patient: patient,
-                showYear: showYear,
+                showYear: showDate,
                 showDescription: showDescription,
                 showAge: showAge,
                 showBMI: showBMI,

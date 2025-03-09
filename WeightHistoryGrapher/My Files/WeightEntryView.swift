@@ -1,3 +1,4 @@
+import Foundation
 import SwiftUI
 
 struct WeightEntryView: View {
@@ -6,7 +7,7 @@ struct WeightEntryView: View {
     @Binding var patient: Patient
     @State private var label: String = ""
     @State private var weightText: String = "" // Holds raw input as String
-    @State private var dateText: String = ""   // Holds raw input as String
+    @State private var selectedDate = Date()
     @State private var selectedCategory: LifeEventCategory = .pickOne
     @State private var showDemographicsWindow = false
 
@@ -18,11 +19,19 @@ struct WeightEntryView: View {
     }
     
     /// ✅ Computed property to check if entry is valid
-    var isValidEntry: Bool {
-        if let weight = Double(weightText), let date = Int(dateText) {
-            return (90...1500).contains(weight) && (1915...3000).contains(date) && selectedCategory != .pickOne
-        }
-        return false
+    var isValid: Bool {
+        guard let weight = Double(weightText),
+              selectedCategory != .pickOne
+        else { return false }
+        return (90...1500).contains(weight)
+    }
+    
+    // Add this computed property to simplify demographic checks
+    private var isDemographicsEmpty: Bool {
+        patient.heightFeet.isEmpty &&
+        patient.heightInches.isEmpty &&
+        patient.dateOfBirth == nil
+        
     }
     
     var body: some View {
@@ -36,11 +45,7 @@ struct WeightEntryView: View {
                                 Text("Step 1.")
                                     .bold()
                                     .font(.title)
-                                    .foregroundColor(
-                                        (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                         patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
-                                            .red : .black
-                                    )
+                                    .foregroundColor(isDemographicsEmpty ? .red : .black)
                                 Text("Enter Demographics")
                                     .font(.title2)
                                     .underline()
@@ -52,33 +57,21 @@ struct WeightEntryView: View {
                                 
                             }
                             
-                                Button("Demographics") {
-                                    showDemographicsWindow = true
-                                }
-                                .focused($focusedField, equals: .demographics)
-                                .focusable(true)
-                                .padding(
-                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? 20 : 10
-                                )
-                                .buttonStyle(.borderedProminent)
-                                .controlSize(
-                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .large : .regular
-                                )
-                                .tint(
-                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? .red : .blue
-                                )
-                                
+                            Button("Demographics") {
+                                showDemographicsWindow = true
+                            }
+                            .focused($focusedField, equals: .demographics)
+                            .focusable(true)
+                            .padding(isDemographicsEmpty ? 20 : 10)
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(isDemographicsEmpty ? .large : .regular)
+                            .tint(isDemographicsEmpty ? .red : .blue)
                             
                         }
                         .padding(10)
-                        .overlay((patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                  patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ? Rectangle().stroke(Color.gray, lineWidth: 1) : nil)
+                        .overlay(isDemographicsEmpty ? Rectangle().stroke(Color.gray, lineWidth: 1) : nil)
                     }
-                    if (!patient.heightFeet.isEmpty && !patient.heightInches.isEmpty &&
-                        !patient.dobMonth.isEmpty && !patient.dobDay.isEmpty && !patient.dobYear.isEmpty) {
+                    if !isDemographicsEmpty {
                         DemographicsView(weightData: weightData)
                             .padding(5)
                             .border(Color.gray.opacity(0.3), width: 2)
@@ -90,11 +83,7 @@ struct WeightEntryView: View {
                             Text("Step 2.")
                                 .bold()
                                 .font(.title)
-                                .foregroundColor(
-                                    (patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                                     patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty) ?
-                                        .black : .red
-                                )
+                                .foregroundColor(isDemographicsEmpty ? .black : .red)
                             Text("Enter Weight History")
                                 .font(.title2)
                                 .underline()
@@ -120,9 +109,6 @@ struct WeightEntryView: View {
                         }
                         
                         HStack {
-                            
-                            
-                            
                             Text("Description:")
                                 .frame(width: 120, alignment: .leading)
                             TextField("Enter Significant Weight Time Point Description", text: $label)
@@ -144,27 +130,28 @@ struct WeightEntryView: View {
                         }
                         
                         HStack {
-                            Text("Year:")
-                                .frame(width: 120, alignment: .leading)
-                            TextField("Enter Year", text: $dateText)
-                                .textFieldStyle(.roundedBorder)
-                                .frame(width: 150)
-                                .focused($focusedField, equals: .date)
-                                .submitLabel(.next)
-                                .onSubmit { validateDate() } // ✅ Validate when leaving field
+                            DatePicker(
+                                "Select a Date",
+                                selection: $selectedDate,
+                                displayedComponents: .date
+                            )
+                            .frame(width: 150)
+                            .focused($focusedField, equals: .date)
+                            .submitLabel(.next)
+                            .onSubmit { validateDate() } // ✅ Validate when leaving field
                         }
                         // FIXME: working on focus to include drop down menu
                         HStack {
                             Button("Add") {
-                                guard let weight = Double(weightText), let date = Int(dateText) else { return }
-                                weightData.addWeightEntry(date: date, weight: weight, label: label, category: selectedCategory) // ✅ Pass selectedCategory
+                                guard let weight = Double(weightText) else { return }
+                                weightData.addWeightEntry(date: selectedDate, weight: weight, label: label, category: selectedCategory) // ✅ Pass selectedCategory
                                 resetFields()
                                 DispatchQueue.main.async {
                                     focusedField = .category
                                 }
                             }
                             .buttonStyle(.borderedProminent)
-                            .disabled(!isValidEntry) // ✅ Disable button if invalid input
+                            .disabled(!isValid) // ✅ Disable button if invalid input
                             .focused($focusedField, equals: .addButton)
                             .focusable(true)
                             .keyboardShortcut(.defaultAction)
@@ -187,8 +174,7 @@ struct WeightEntryView: View {
                         .padding(.bottom)
                     }
                     .padding()
-                    .overlay((!patient.heightFeet.isEmpty && !patient.heightInches.isEmpty &&
-                              !patient.dobMonth.isEmpty && !patient.dobDay.isEmpty && !patient.dobYear.isEmpty) ? Rectangle().stroke(Color.gray, lineWidth: 1) : nil)
+                    .overlay(!isDemographicsEmpty ? Rectangle().stroke(Color.gray, lineWidth: 1) : nil)
                 }
                 
             }
@@ -199,16 +185,13 @@ struct WeightEntryView: View {
                 name: $patient.name,
                 heightFeet: $patient.heightFeet,
                 heightInches: $patient.heightInches,
-                dobDay: $patient.dobDay,
-                dobMonth: $patient.dobMonth,
-                dobYear: $patient.dobYear
+                dateOfBirth: $patient.dateOfBirth
             )
         }
         .padding()
         .onAppear {
             DispatchQueue.main.async {
-                if patient.heightFeet.isEmpty && patient.heightInches.isEmpty &&
-                    patient.dobMonth.isEmpty && patient.dobDay.isEmpty && patient.dobYear.isEmpty {
+                if isDemographicsEmpty {
                     if focusedField != .addButton {
                         focusedField = .demographics
                     }
@@ -217,7 +200,6 @@ struct WeightEntryView: View {
                 }
             }
             weightText = "0"
-            dateText = "2025"
         }
     }
     
@@ -234,16 +216,34 @@ struct WeightEntryView: View {
         }
     }
     
-    /// ✅ Validates date when the user finishes typing
     private func validateDate() {
-        if let date = Int(dateText) {
-            if date < 1915 {
-                dateText = "1915"
-            } else if date > 3000 {
-                dateText = "3000"
+        // Get calendar and components for date validation
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year], from: selectedDate)
+        let currentYear = components.year ?? 2025
+        
+        // Set minimum and maximum years
+        let minYear = 1915
+        let maxYear = 3000
+        
+        // Check if the year is outside valid range
+        if currentYear < minYear || currentYear > maxYear {
+            // Create a valid default date
+            var defaultComponents = DateComponents()
+            defaultComponents.year = min(max(currentYear, minYear), maxYear)
+            
+            // Try to get other components from the original date
+            let originalComponents = calendar.dateComponents([.month, .day], from: selectedDate)
+            defaultComponents.month = originalComponents.month
+            defaultComponents.day = originalComponents.day
+            
+            // Set the selectedDate to the validated date
+            if let validDate = calendar.date(from: defaultComponents) {
+                selectedDate = validDate
+            } else {
+                // Fallback to current date if something goes wrong
+                selectedDate = Date()
             }
-        } else {
-            dateText = "2025" // Default to valid value if input is non-numeric
         }
     }
     
@@ -251,7 +251,7 @@ struct WeightEntryView: View {
     private func resetFields() {
         label = ""
         weightText = "0"
-        dateText = "2025"
+        selectedDate = Date()
         selectedCategory = .pickOne
     }
 }
