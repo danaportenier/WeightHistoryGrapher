@@ -13,43 +13,41 @@ struct ChartView: View {
     @State private var showBMI = true
     @State private var showWeight = true
 
-    // Toggle for annotation list
+    // Toggle for the side annotation list
     @State private var showAnnotationList = true
 
     var body: some View {
+        // Force a large scroll area so there's room for the side list
         ScrollView([.horizontal, .vertical]) {
             VStack(alignment: .leading, spacing: 12) {
-
-                // Title & Toggles
+                
+                // 1) Title + Toggles
                 VStack(spacing: 2) {
                     Text("Significant Weight History")
                         .font(.title2)
                         .bold()
-
+                    
                     if !patient.name.isEmpty {
                         Text("(Patient: \(patient.name))")
                             .font(.headline)
                     }
                 }
                 .padding(.bottom, 6)
-
-                // Row of toggles
+                
+                // 2) Row of Toggles
                 HStack(spacing: 16) {
                     Toggle("Show Year", isOn: $showYear)
-                        .toggleStyle(.checkbox)
                     Toggle("Show Description", isOn: $showDescription)
-                        .toggleStyle(.checkbox)
                     Toggle("Show Age", isOn: $showAge)
-                        .toggleStyle(.checkbox)
                     Toggle("Show BMI", isOn: $showBMI)
-                        .toggleStyle(.checkbox)
                     Toggle("Show Weight", isOn: $showWeight)
-                        .toggleStyle(.checkbox)
+                    
+                    // Toggle controlling the side annotation list:
                     Toggle("Show Weight Event List", isOn: $showAnnotationList)
-                        .toggleStyle(.checkbox)
                 }
-
-                // Chart + annotation list side by side
+                .toggleStyle(.checkbox)
+                
+                // 3) Chart + optional annotation list
                 HStack(alignment: .top, spacing: 0) {
                     ChartDesign(
                         weightEntries: weightEntries,
@@ -63,8 +61,8 @@ struct ChartView: View {
                     .frame(minWidth: 800, minHeight: 400)
                     .overlay(exportButtons, alignment: .bottomTrailing)
                     .border(.gray.opacity(0.3), width: 1)
-
-                    // If toggled on, show annotation list
+                    
+                    // Instead of a transition, just conditionally show/hide
                     if showAnnotationList {
                         CompleteAnnotationListView(
                             weightEntries: weightEntries,
@@ -74,18 +72,20 @@ struct ChartView: View {
                         .frame(width: 250)
                         .padding(.horizontal, 4)
                         .padding(.vertical, 8)
-                        .transition(.move(edge: .trailing))
                     }
                 }
-                .animation(.default, value: showAnnotationList)
+                // No transition(...) => no chance the list is at zero size
+                // Also no .animation(...) => we want an immediate layout
+                
             }
             .padding()
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            // Give the entire container a big, fixed size
+            .frame(width: 1200, height: 800)
         }
         .background(Color.white)
     }
 
-    // MARK: - Export & Copy Buttons
+    // MARK: - Export/Copy Buttons at bottom-right
     private var exportButtons: some View {
         HStack {
             Button(action: exportChart) {
@@ -101,10 +101,11 @@ struct ChartView: View {
         .padding()
     }
 
-    // MARK: - Export Chart
+    // MARK: - Export Chart as an Image
     private func exportChart() {
-        DispatchQueue.main.async {
-            // Create a ChartOnlyView that matches user toggles
+        // Optional: small delay ensures layout commits
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // Construct the ChartOnlyView using the same toggle states
             let content = ChartOnlyView(
                 weightEntries: $weightEntries,
                 patient: patient,
@@ -116,22 +117,23 @@ struct ChartView: View {
                 showAnnotationList: showAnnotationList
             )
 
+            // Render as an NSImage
             let renderer = ImageRenderer(content: content)
             renderer.scale = 2.0
-            renderer.proposedSize = .init(width: 1000, height: 700)
+            // Provide enough room for chart + side list if toggled
+            renderer.proposedSize = .init(width: 1200, height: 800)
 
             guard let image = renderer.nsImage else {
-                print("❌ Error: Could not generate nsImage.")
+                print("❌ Error: Could not generate nsImage for export.")
                 return
             }
             saveImageAsJPEG(image)
         }
     }
 
-    // MARK: - Copy Chart
+    // MARK: - Copy Chart to Clipboard
     private func copyChartToClipboard() {
-        DispatchQueue.main.async {
-            // Same toggles used here
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let content = ChartOnlyView(
                 weightEntries: $weightEntries,
                 patient: patient,
@@ -145,7 +147,7 @@ struct ChartView: View {
 
             let renderer = ImageRenderer(content: content)
             renderer.scale = 2.0
-            renderer.proposedSize = .init(width: 1000, height: 700)
+            renderer.proposedSize = .init(width: 1200, height: 800)
 
             guard let image = renderer.nsImage else {
                 print("❌ Error: Could not generate nsImage for clipboard.")
@@ -165,6 +167,7 @@ struct ChartView: View {
             print("❌ Error: Could not create JPEG data.")
             return
         }
+
         let savePanel = NSSavePanel()
         savePanel.allowedContentTypes = [.jpeg]
         savePanel.nameFieldStringValue = "WeightChart.jpg"

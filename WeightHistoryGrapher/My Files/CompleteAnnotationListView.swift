@@ -11,7 +11,7 @@ struct CompleteAnnotationListView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 6) {
-                Text("Signifigant Weight Events")
+                Text("Significant Weight Events")
                     .font(.headline)
                     .padding(.bottom, 4)
 

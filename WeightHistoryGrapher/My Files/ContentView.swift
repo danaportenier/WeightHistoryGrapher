@@ -18,7 +18,7 @@ struct ContentView: View {
             
             
             HStack {
-                WeightEnteryView(weightData: weightData, patient: $weightData.patient)
+                WeightEntryView(weightData: weightData, patient: $weightData.patient)
                     .frame(width: 800)
                 Divider()
                 Spacer()
@@ -35,7 +35,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
                     .navigationTitle("")
                     .sheet(isPresented: $showDemographicsWindow) { 
-                        DemographicsEnteryView(
+                        DemographicsEntryView(
                             weightData: weightData,
                             name: $weightData.patient.name,
                             heightFeet: $weightData.patient.heightFeet,

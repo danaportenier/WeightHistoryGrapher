@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct WeightEnteryView: View {
+struct WeightEntryView: View {
     
     @ObservedObject var weightData: WeightData
     @Binding var patient: Patient
@@ -194,7 +194,7 @@ struct WeightEnteryView: View {
             }
         }
         .sheet(isPresented: $showDemographicsWindow) {
-            DemographicsEnteryView(
+            DemographicsEntryView(
                 weightData: weightData,
                 name: $patient.name,
                 heightFeet: $patient.heightFeet,
@@ -257,5 +257,5 @@ struct WeightEnteryView: View {
 }
 
 #Preview {
-    WeightEnteryView(weightData: WeightData(), patient: .constant(Patient()))
+    WeightEntryView(weightData: WeightData(), patient: .constant(Patient()))
 }

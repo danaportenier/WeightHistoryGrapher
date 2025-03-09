@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct DemographicsEnteryView: View {
+struct DemographicsEntryView: View {
     @ObservedObject var weightData: WeightData
     @Binding var name: String
     @Binding var heightFeet: String

@@ -104,11 +104,11 @@ struct ChartDesign: View {
         let bmi = entry.bmiAtEntry(heightMeters: patient.heightMeters) ?? 0.0
         let weightString = String(format: "%.0f", entry.weight)
         let bmiString = String(format: "%.0f", bmi)
-        
+        let correctedindex = index + 1
         VStack(alignment: .leading, spacing: 2) {
             HStack {
                 // Always show index
-                Text("\(index).")
+                Text("\(correctedindex).")
                     .font(.caption)
                     .bold()
                     .foregroundColor(.black)

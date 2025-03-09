@@ -6,22 +6,24 @@ struct ChartOnlyView: View {
     @Binding var weightEntries: [WeightEntry]
     let patient: Patient
 
-    // The same toggles as in ChartView
+    // Same toggles as ChartView
     let showYear: Bool
     let showDescription: Bool
     let showAge: Bool
     let showBMI: Bool
     let showWeight: Bool
-
     let showAnnotationList: Bool
 
     var body: some View {
+        // Provide a large overall container so that the side list
+        // is guaranteed layout space if toggled on:
         VStack(alignment: .leading, spacing: 8) {
             // Title
             VStack(spacing: 0) {
                 Text("Significant Weight History")
                     .font(.title2)
                     .bold()
+                
                 if !patient.name.isEmpty {
                     Text("Patient: \(patient.name)")
                         .font(.headline)
@@ -29,7 +31,7 @@ struct ChartOnlyView: View {
             }
             .padding(.bottom, 8)
 
-            // Same layout: chart + optional annotation list
+            // HStack for chart + optional annotation side list
             HStack(alignment: .top, spacing: 0) {
                 ChartDesign(
                     weightEntries: weightEntries,
@@ -53,7 +55,8 @@ struct ChartOnlyView: View {
                     .padding(.vertical, 8)
                 }
             }
-            .frame(width: 1000, height: 700)
+            // Enough space for chart + side list
+            .frame(width: 1200, height: 700)
             .padding()
         }
         .background(Color.white)
