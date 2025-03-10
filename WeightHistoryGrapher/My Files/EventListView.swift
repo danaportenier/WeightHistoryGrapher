@@ -13,32 +13,35 @@ struct EventListView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            Text("Weight Events")
+            Text("Delete Weight Events")
                 .font(.title2)
-                .padding(.top, 2)
+                .padding(.top)
                 .underline()
             
             if !weightData.patient.weightEntries.isEmpty {
+                VStack {
                 ForEach(weightData.patient.weightEntries, id: \.self) { entry in
                     let age = entry.ageAtEntry(dob: weightData.patient.dateOfBirth)
-                        let bmi = entry.bmiAtEntry(heightMeters: weightData.patient.heightMeters)
+                    let bmi = entry.bmiAtEntry(heightMeters: weightData.patient.heightMeters)
                     HStack {
-                        Text("Year: \(String(describing: entry.date)) || Lbs: \(formattedWeight(entry.weight))")
+                        Text("Year: \(entry.date.formatted(.dateTime.year()))")
                             .lineLimit(1)
-                        Text("Weight: \(String(format: "%.1f", entry.weight)) lbs")
                         if let age = age {
-                                    Text("Age: \(age)")
-                                } else {
-                                    Text("Age: N/A")
-                                }
-
-                                if let bmi = bmi {
-                                    Text("BMI: \(String(format: "%.1f", bmi))")
-                                } else {
-                                    Text("BMI: N/A")
-                                }
+                            Text("Age: \(age)")
+                        } else {
+                            Text("Age: N/A")
+                        }
                         
-                       
+                        Text("Weight: \(String(format: "%.1f", entry.weight)) lbs")
+                        
+                        
+                        if let bmi = bmi {
+                            Text("BMI: \(String(format: "%.1f", bmi))")
+                        } else {
+                            Text("BMI: N/A")
+                        }
+                        
+                        
                         
                         Button(action: {
                             deleteEntry(entry)
@@ -52,14 +55,24 @@ struct EventListView: View {
                     }
                     .padding(.vertical, 4) // Add spacing between rows
                 }
-            } else {
                 Spacer()
-                Text("Add Weight History")
-                Image("Chart")
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
+                .animation(.easeInOut(duration: 0.4), value: weightData.patient.weightEntries.count)
+            } else {
+                VStack {
+                    Text("Add Weight History")
+                        .padding(.top)
+                    Spacer()
                     
+                    Image("Chart")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .transition(.opacity.combined(with: .scale)) // Smooth fade-out and scale effect
+                        .animation(.easeInOut(duration: 0.8), value: weightData.patient.weightEntries.count)
+                    
+                    Spacer()
+                }
             }
         }
         .padding(.top, 20)

@@ -74,7 +74,7 @@ struct ChartDesign: View {
         let bmiString = String(format: "%.0f", bmi)
         let correctedindex = index + 1
         VStack(alignment: .leading, spacing: 2) {
-            HStack {
+            HStack(spacing: 2) {
                 // Always show index
                 Text("\(correctedindex).")
                     .font(.caption)
@@ -88,12 +88,18 @@ struct ChartDesign: View {
                         .bold()
                         .foregroundColor(.black)
                 }
+                if showAge {
+                    Text("Age: \(age)")
+                        .font(.caption)
+                        .bold()
+                        .foregroundColor(.black)
+                }
             }
             
             
             // Pair the dropdown category with the typed label if "Show Description"
             if showDescription {
-                VStack {
+                VStack(alignment: .leading) {
                 Text("\(entry.category.rawValue)")
                     .font(.caption)
                     .bold()
@@ -108,9 +114,12 @@ struct ChartDesign: View {
             }
             
             HStack(spacing: 6) {
-                if showAge {
-                    Text("Age: \(age)")
+                if showWeight {
+                    Text("Weight: \(weightString) lbs")
+                        .font(.caption2)
+                        .foregroundColor(.black.opacity(0.8))
                 }
+                
                 if showBMI {
                     Text("BMI: \(bmiString)")
                 }
@@ -118,11 +127,7 @@ struct ChartDesign: View {
             .font(.caption2)
             .foregroundColor(.black.opacity(0.8))
             
-            if showWeight {
-                Text("Weight: \(weightString) lbs")
-                    .font(.caption2)
-                    .foregroundColor(.black.opacity(0.8))
-            }
+            
         }
         .padding(6)
         .background(

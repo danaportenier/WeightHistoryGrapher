@@ -59,7 +59,6 @@ struct ChartView: View {
                         showWeight: showWeight
                     )
                     .frame(minWidth: 800, minHeight: 400)
-                    .overlay(exportButtons, alignment: .bottomTrailing)
                     .border(.gray.opacity(0.3), width: 1)
                     
                     // Instead of a transition, just conditionally show/hide
@@ -74,6 +73,12 @@ struct ChartView: View {
                         .padding(.vertical, 8)
                     }
                 }
+                // Move the export buttons below the chart
+                HStack {
+                    Spacer() // Pushes buttons to trailing edge
+                    exportButtons
+                }
+                .padding(.top, 10)
                 // No transition(...) => no chance the list is at zero size
                 // Also no .animation(...) => we want an immediate layout
                 
